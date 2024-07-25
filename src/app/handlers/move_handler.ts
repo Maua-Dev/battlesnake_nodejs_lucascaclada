@@ -4,10 +4,10 @@ export function moveHandler(req: Request, res: Response) {
   try {
     res.json({
       apiversion: "1",
-      author: "Maua-Dev",
-      color: "#8B0000",
-      head: "tiger-king",
-      tail: "hook",
+      author: "LucasCalcada",
+      color: "#00ccff",
+      head: "cosmic-horror",
+      tail: "alligator",
       version: "1.0.0"
     })
 
