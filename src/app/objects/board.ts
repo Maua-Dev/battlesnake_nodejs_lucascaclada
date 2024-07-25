@@ -15,7 +15,6 @@ export class Board{
     this.generateTiles();
     this.populateFood(data.food);
     this.populateSnakes(data.snakes);
-    this.render();
   }
   
   static getTileKey(x:number, y:number) : string{
@@ -71,7 +70,6 @@ export class Board{
   }
 
   render(){
-    console.log('\n===Board===');
     for(let y = this.boardHeight - 1; y >= 0; y--){
       let line = '';
       for(let x = 0; x < this.boardWidth; x++){

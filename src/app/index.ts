@@ -4,6 +4,8 @@ import express, { Request, Response } from 'express';
 import ServerlessHttp from 'serverless-http';
 import { STAGE } from './enums/stage_enum';
 import { router } from './routes/snake_routes'
+import { Board } from './objects/board'
+import { moveRequest, boardData } from './objects/board_data_interface'
 
 const app = express();
 app.use(express.json());
@@ -14,7 +16,14 @@ app.post('/start', (req: Request, res: Response) => {
 });
 
 app.post('/move', (req: Request, res: Response) => {
-    console.log(req.body);
+    const request:moveRequest = req.body;
+    const bData:boardData = request.board;
+    const b = new Board(bData);
+
+    console.log(`Turn ${request.turn} - Match ${request.game.id} `);
+    b.render()
+    console.log('');
+    // Chose random direction
     const directions = ["up", "down", "left", "right"];
     const i = Math.floor(Math.random() * directions.length);
     const response = {
@@ -35,5 +44,3 @@ if (process.env.STAGE === STAGE.TEST) {
 } else {
     module.exports.handler = ServerlessHttp(app)
 }
-
-
