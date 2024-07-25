@@ -1,7 +1,10 @@
-class Tile{
+import { TileContent } from './tile_content'
+
+export class Tile{
   xPos:number;
   yPos:number;
   sides:number[][] = [];
+  content?:TileContent = undefined;
 
   constructor(x:number, y:number, width:number = 11, height:number = 11){
     this.xPos = x;
