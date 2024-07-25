@@ -10,7 +10,8 @@ export class TileContent{
 // Enemy Snake
 export class SnakeBody extends TileContent{
   size:number;
-  constructor(size:number){ super('Snake');
+  constructor(size:number){ 
+    super('Snake');
     this.size = size;
     this.icon = 'S';
   }

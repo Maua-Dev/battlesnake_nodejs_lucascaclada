@@ -1,18 +1,18 @@
-import { Request, Response } from "express"
+import { Request, Response } from 'express'
 
 export function moveHandler(req: Request, res: Response) {
   try {
     res.json({
-      apiversion: "1",
-      author: "LucasCalcada",
-      color: "#00ccff",
-      head: "cosmic-horror",
-      tail: "alligator",
-      version: "1.0.0"
+      apiversion: '1',
+      author: 'LucasCalcada',
+      color: '#00ccff',
+      head: 'cosmic-horror',
+      tail: 'alligator',
+      version: '1.0.0'
     })
 
   } catch (error: any) {
     console.error(error)
-    res.status(500).send("Internal Server Error: " + error.message)
+    res.status(500).send('Internal Server Error: ' + error.message)
   }
 }

@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(router)
 
 app.post('/start', (req: Request, res: Response) => {
-    res.send("ok");
+    res.send('ok');
 });
 
 app.post('/move', (req: Request, res: Response) => {
@@ -23,8 +23,9 @@ app.post('/move', (req: Request, res: Response) => {
     console.log(`Turn ${request.turn} - Match ${request.game.id} `);
     b.render()
     console.log('');
+
     // Chose random direction
-    const directions = ["up", "down", "left", "right"];
+    const directions = ['up', 'down', 'left', 'right'];
     const i = Math.floor(Math.random() * directions.length);
     const response = {
         move: directions[i],
@@ -34,13 +35,13 @@ app.post('/move', (req: Request, res: Response) => {
 });
 
 app.post('/end', (req: Request, res: Response) => {
-    res.send("ok");
+    res.send('ok');
 });
 
 console.log('process.env.STAGE: ' + process.env.STAGE)
 
 if (process.env.STAGE === STAGE.TEST) {
-    app.listen(3000, () => {console.log('Server up and running on: http://localhost:3000 🚀')})
+    app.listen(3000, () => {console.log('Server up and running on: http://localhost:3000')})
 } else {
     module.exports.handler = ServerlessHttp(app)
 }
