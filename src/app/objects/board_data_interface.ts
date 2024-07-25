@@ -29,3 +29,16 @@ export interface boardData{
   hazards:coord[];
   snakes:snake[];
 }
+
+export interface rules{
+  name:string;
+  version:string;
+}
+
+export interface gameData{
+  id:string;
+  ruleset:rules;
+  map:string;
+  timeout:number;
+  source:string;
+}
