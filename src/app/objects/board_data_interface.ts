@@ -42,3 +42,10 @@ export interface gameData{
   timeout:number;
   source:string;
 }
+
+export interface moveRequest{
+  game:gameData;
+  turn:number;
+  board:boardData;
+  you:snake;
+}
