@@ -15,7 +15,7 @@ export interface snake{
   health:number;
   body:coord[];
   latency:string;
-  head:coord[];
+  head:coord;
   length:number;
   shout:string;
   squad:string;
