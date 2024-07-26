@@ -1,6 +1,7 @@
 import { Tile } from './tile'
-import { TileContent, SnakeBody, SnakeHead, SnakeTail, Food } from './tile_content'
+import { TileContent, TileType } from './tile_content'
 import { boardData, coord, snake } from './board_data_interface';
+import { Snake } from './snake'
 
 export class Board{
   boardWidth:number;
@@ -45,7 +46,7 @@ export class Board{
       let x = pos.x;
       let y = pos.y;
       let key = Board.getTileKey(x, y);
-      this.tiles[key].content = new Food();
+      this.tiles[key].content.tileType = TileType.Food;
     });
   }
 
@@ -56,16 +57,16 @@ export class Board{
       // Populate body tiles
       s.body.forEach(b => {
         let key = Board.getTileKeyFromCoord(b);
-        this.tiles[key].content = new SnakeBody(len);
+        this.tiles[key].content.tileType = TileType.SnakeBody;
       })
 
       // Populate tail tile
       let tailKey = Board.getTileKeyFromCoord(s.body[len - 1]);
-      this.tiles[tailKey].content = new SnakeTail(len);
+      this.tiles[tailKey].content.tileType = TileType.SnakeTail;
       
       // Populate head tile
       let headKey = Board.getTileKeyFromCoord(s.head);
-      this.tiles[headKey].content = new SnakeHead(len);
+      this.tiles[headKey].content.tileType = TileType.SnakeHead;
     });
   }
 
@@ -74,7 +75,7 @@ export class Board{
       let line = '';
       for(let x = 0; x < this.boardWidth; x++){
         let tile:Tile = this.getTile(x, y);
-        line += tile.content?.icon || '.';
+        line += tile.content.tileType;
       }
       console.log(line);
     }
