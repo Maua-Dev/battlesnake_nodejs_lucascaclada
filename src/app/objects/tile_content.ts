@@ -2,9 +2,12 @@
 export enum TileType{
   Empty,
   Food,
-  SnakeHead,
-  SnakeBody,
-  SnakeTail
+  EnemyHead,
+  EnemyBody,
+  EnemyTail,
+  PlayerHead,
+  PlayerBody,
+  PlayerTail
 }
 
 export class TileContent{

@@ -60,16 +60,16 @@ export class Board{
       // Populate body tiles
       s.body.forEach(b => {
         let key = Board.getTileKeyFromCoord(b);
-        this.tiles[key].content.tileType = TileType.SnakeBody;
+        this.tiles[key].content.tileType = s.id == this.playerSnake.id ? TileType.PlayerBody : TileType.EnemyBody;
       })
 
       // Populate tail tile
       let tailKey = Board.getTileKeyFromCoord(s.body[len - 1]);
-      this.tiles[tailKey].content.tileType = TileType.SnakeTail;
+      this.tiles[tailKey].content.tileType = s.id == this.playerSnake.id ? TileType.PlayerTail : TileType.EnemyTail;
       
       // Populate head tile
       let headKey = Board.getTileKeyFromCoord(s.head);
-      this.tiles[headKey].content.tileType = TileType.SnakeHead;
+      this.tiles[headKey].content.tileType = s.id == this.playerSnake.id ? TileType.PlayerHead : TileType.EnemyHead;
       
       // Increase danger/reward according enemy movement
       if(s.id != this.playerSnake.id){
