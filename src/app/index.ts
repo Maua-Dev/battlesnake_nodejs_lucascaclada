@@ -6,6 +6,7 @@ import { STAGE } from './enums/stage_enum';
 import { router } from './routes/snake_routes'
 import { Board } from './objects/board'
 import { moveRequest, boardData } from './objects/board_data_interface'
+import { Snake } from './objects/snake';
 
 const app = express();
 app.use(express.json());
@@ -19,18 +20,24 @@ app.post('/move', (req: Request, res: Response) => {
     const request:moveRequest = req.body;
     const bData:boardData = request.board;
     const b = new Board(bData);
+    const s = new Snake(request.you);
+    s.checkSides(b);
 
     console.log(`Turn ${request.turn} - Match ${request.game.id} `);
     b.render()
     console.log('');
 
     // Chose random direction
-    const directions = ['up', 'down', 'left', 'right'];
+    const directions = s.directions;
+    console.log(directions);
     const i = Math.floor(Math.random() * directions.length);
+    console.log(i);
+    console.log(directions[i]);
     const response = {
         move: directions[i],
         shout: `I'm moving ${directions[i]}!`
     };
+    console.log(response);
     res.json(response);
 });
 
