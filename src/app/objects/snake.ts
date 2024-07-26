@@ -4,11 +4,15 @@ import { Tile } from './tile'
 import { TileContent, TileType} from './tile_content';
 
 export class Snake{
+    id:string;
+    length:number;
     head:coord;
     directions:string[] = [];
 
-    constructor(youData:snake){
-        this.head = youData.head;
+    constructor(snakeData:snake){
+        this.id = snakeData.id;
+        this.length = snakeData.length;
+        this.head = snakeData.head;
     }
 
     // Checks available directions

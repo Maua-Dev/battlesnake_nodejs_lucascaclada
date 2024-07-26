@@ -19,8 +19,10 @@ app.post('/start', (req: Request, res: Response) => {
 app.post('/move', (req: Request, res: Response) => {
     const request:moveRequest = req.body;
     const bData:boardData = request.board;
-    const b = new Board(bData);
+
     const s = new Snake(request.you);
+    const b = new Board(bData, s);
+
     s.checkSides(b);
 
     console.log(`Turn ${request.turn} - Match ${request.game.id} `);

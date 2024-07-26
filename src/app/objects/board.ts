@@ -8,10 +8,13 @@ export class Board{
   boardHeight:number;
   tiles: { [coord:string]: Tile} = {};
 
-  constructor(data:boardData){
+  playerSnake:Snake;
+
+  constructor(data:boardData, playerSnake:Snake){
     // Board Constants
     this.boardWidth = data.width;
     this.boardHeight = data.height;
+    this.playerSnake = playerSnake;
     // Board Content
     this.generateTiles();
     this.populateFood(data.food);
@@ -67,6 +70,21 @@ export class Board{
       // Populate head tile
       let headKey = Board.getTileKeyFromCoord(s.head);
       this.tiles[headKey].content.tileType = TileType.SnakeHead;
+      
+      // Increase danger/reward according enemy movement
+      if(s.id != this.playerSnake.id){
+        console.log(this.tiles[headKey].sidesKeys);
+        this.tiles[headKey].sidesKeys.forEach(key => {
+          if(this.playerSnake.length > s.length){
+            // Player can kill snake
+            this.tiles[key].content.reward += .5;
+          }
+          else{
+            // Player can die
+            this.tiles[key].content.danger += .1;
+          }
+        });
+      }
     });
   }
 
