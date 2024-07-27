@@ -62,6 +62,7 @@ export class Board{
       s.body.forEach(b => {
         let key = Board.getTileKeyFromCoord(b);
         this.tiles[key].tileType = s.id == this.playerSnake.id ? TileType.PlayerBody : TileType.EnemyBody;
+        this.tiles[key].dangerStats.snakeBody = true;
       })
 
       // Populate tail tile

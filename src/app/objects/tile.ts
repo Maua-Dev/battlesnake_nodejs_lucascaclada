@@ -43,10 +43,13 @@ export class Tile{
   }
 
   get danger(){
+    if(this.dangerStats.snakeBody){
+      this.dangerValue = 9999;
+      return this.dangerValue;
+    }
     this.dangerValue = 0;
     if(this.dangerStats.nearHead) this.dangerValue += 1;
     if(this.dangerStats.smallSection) this.dangerValue += 1;
-    if(this.dangerStats.snakeBody) this.dangerValue += 1;
     return this.dangerValue;
   }
 }
