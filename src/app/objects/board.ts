@@ -61,17 +61,20 @@ export class Board{
       // Populate body tiles
       s.body.forEach(b => {
         let key = Board.getTileKeyFromCoord(b);
-        this.tiles[key].tileType = s.id == this.playerSnake.id ? TileType.PlayerBody : TileType.EnemyBody;
+        let bodyType:TileType = s.id == this.playerSnake.id ? TileType.PlayerBody : TileType.EnemyBody;
+        this.tiles[key].tileType = bodyType;
         this.tiles[key].dangerStats.snakeBody = true;
       })
 
       // Populate tail tile
       let tailKey = Board.getTileKeyFromCoord(s.body[len - 1]);
-      this.tiles[tailKey].tileType = s.id == this.playerSnake.id ? TileType.PlayerTail : TileType.EnemyTail;
+      let tailType:TileType = s.id == this.playerSnake.id ? TileType.PlayerTail : TileType.EnemyTail;
+      this.tiles[tailKey].tileType = tailType;
       
       // Populate head tile
       let headKey = Board.getTileKeyFromCoord(s.head);
-      this.tiles[headKey].tileType = s.id == this.playerSnake.id ? TileType.PlayerHead : TileType.EnemyHead;
+      let headType:TileType = s.id == this.playerSnake.id ? TileType.PlayerHead : TileType.EnemyHead;
+      this.tiles[headKey].tileType = headType;
       
       // Increase danger/reward according enemy movement
       if(s.id != this.playerSnake.id){
