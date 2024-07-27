@@ -71,7 +71,7 @@ function renderTurn(data = matchData){
     let turn = data[turnIndex];
     for(let y = 0; y < 11; y++){
         for(let x = 0; x < 11; x++){
-            let tileData = turn.tiles[`x${x}-y${y}`].content;
+            let tileData = turn.tiles[`x${x}-y${y}`];
             let tile = createTile(tileData.tileType, tileData.danger, tileData.reward);
             board.appendChild(tile);
         }
