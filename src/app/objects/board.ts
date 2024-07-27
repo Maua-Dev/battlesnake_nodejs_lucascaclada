@@ -51,6 +51,8 @@ export class Board{
       let y = pos.y;
       let key = Board.getTileKey(x, y);
       this.tiles[key].tileType = TileType.Food;
+      this.tiles[key].rewardStats.food = true;
+      this.tiles[key].rewardValue = this.tiles[key].reward;
     });
   }
 

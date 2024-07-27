@@ -86,7 +86,7 @@ function renderTurn(data = matchData){
     for(let y = 10; y >= 0; y--){
         for(let x = 0; x < 11; x++){
             let tileData = turn.tiles[`x${x}-y${y}`];
-            let tile = createTile(tileData.tileType, tileData.dangerValue, tileData.reward, tileData.section);
+            let tile = createTile(tileData.tileType, tileData.dangerValue, tileData.rewardValue, tileData.section);
             tile.onclick = () => {
                 console.log(tileData.dangerStats)
             }

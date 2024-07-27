@@ -11,10 +11,15 @@ export enum TileType{
   PlayerTail
 }
 
-export class Dangers{
+class Dangers{
   snakeBody:boolean = false;
   nearHead:boolean = false;
   smallSection:boolean = false;
+}
+
+class Rewards{
+  food:boolean = false;
+  foodDist:number = 0;
 }
 
 export class Tile{
@@ -26,7 +31,9 @@ export class Tile{
   
   dangerStats:Dangers = new Dangers();
   dangerValue:number = 0;
-  reward:number = 0;
+
+  rewardStats:Rewards = new Rewards();
+  rewardValue:number = 0;
 
   section:string;
   sectionSize:number = 1;
@@ -51,5 +58,11 @@ export class Tile{
     if(this.dangerStats.nearHead) this.dangerValue += 1;
     if(this.dangerStats.smallSection) this.dangerValue += 1;
     return this.dangerValue;
+  }
+
+  get reward(){
+    this.rewardValue = 0;
+    if(this.rewardStats.food) this.rewardValue += 1;
+    return this.rewardValue;
   }
 }
