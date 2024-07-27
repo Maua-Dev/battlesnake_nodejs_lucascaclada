@@ -79,7 +79,7 @@ export class Board{
       // Increase danger/reward according enemy movement
       if(s.id != this.playerSnake.id){
         this.tiles[headKey].sidesKeys.forEach(key => {
-          if(this.playerSnake.length < s.length){
+          if(this.playerSnake.length <= s.length){
             // Player can die
             this.tiles[key].dangerStats.nearHead = true;
           }
