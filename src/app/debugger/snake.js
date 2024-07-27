@@ -19,13 +19,25 @@ window.onload = () => {
 
     let turnDisplay = document.querySelector('#currentTurn');
     document.querySelector('#previousTurn').addEventListener('click', _ => {
-        if(turnIndex > 0) turnIndex -= 1;
+        if(turnIndex < 1) turnIndex -= 1;
         turnDisplay.innerText = turnIndex;
         renderTurn()
     });
     document.querySelector('#nextTurn').addEventListener('click', _ => {
-        if(turnIndex < turnCount - 1) turnIndex += 1;
+        if(turnIndex < turnCount - 2) turnIndex += 1;
         turnDisplay.innerText = turnIndex;
+        renderTurn()
+    });
+    document.addEventListener('wheel', event => {
+        if(event.wheelDelta > 0){
+            if(turnIndex > turnCount - 2) return;
+            turnIndex += 1;
+            turnDisplay.innerText = turnIndex;
+        } else{
+            if(turnIndex < 1) return;
+            turnIndex -= 1;
+            turnDisplay.innerText = turnIndex;
+        }
         renderTurn()
     });
 }
@@ -63,6 +75,7 @@ function createTile(type, danger, reward, set){
     tile.appendChild(createLabel(`d${danger}`));
     tile.appendChild(createLabel(`r${reward}`));
     tile.appendChild(createLabel(`s${set}`));
+
     return tile;
 }
 
@@ -74,6 +87,9 @@ function renderTurn(data = matchData){
         for(let x = 0; x < 11; x++){
             let tileData = turn.tiles[`x${x}-y${y}`];
             let tile = createTile(tileData.tileType, tileData.dangerValue, tileData.reward, tileData.set);
+            tile.onclick = () => {
+                console.log(tileData.dangerStats)
+            }
             board.appendChild(tile);
         }
     }
