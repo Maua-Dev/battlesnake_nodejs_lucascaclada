@@ -80,11 +80,7 @@ export class Board{
       if(s.id != this.playerSnake.id){
         console.log(this.tiles[headKey].sidesKeys);
         this.tiles[headKey].sidesKeys.forEach(key => {
-          if(this.playerSnake.length > s.length){
-            // Player can kill snake
-            this.tiles[key].reward += .5;
-          }
-          else{
+          if(this.playerSnake.length < s.length){
             // Player can die
             this.tiles[key].dangerStats.nearHead = true;
           }
