@@ -23,12 +23,8 @@ app.post('/move', (req: Request, res: Response) => {
     const request:moveRequest = req.body;
     const bData:boardData = request.board;
 
-    
-
     const s = new Snake(request.you);
     const b = new Board(bData, s);
-
-    s.checkSides(b);
 
     if(process.env.STAGE === STAGE.TEST){
         if(latestMatchId != request.game.id){
@@ -40,14 +36,11 @@ app.post('/move', (req: Request, res: Response) => {
     }
 
     // Chose random direction
-    const directions = s.directions;
-    console.log(directions);
-    const i = Math.floor(Math.random() * directions.length);
-    console.log(i);
-    console.log(directions[i]);
+    const directions = s.checkSides(b);
+    console.log(`Turn ${request.turn}`);
     const response = {
-        move: directions[i],
-        shout: `I'm moving ${directions[i]}!`
+        move: directions[0],
+        shout: `I'm moving ${directions[0]}!`
     };
     console.log(response);
     res.json(response);
