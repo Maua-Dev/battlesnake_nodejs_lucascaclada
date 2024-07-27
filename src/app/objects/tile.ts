@@ -25,6 +25,7 @@ export class Tile{
   tileType:TileType = TileType.Empty;
   
   dangerStats:Dangers = new Dangers();
+  dangerValue:number = 0;
   reward:number = 0;
 
   set:string;
@@ -42,10 +43,10 @@ export class Tile{
   }
 
   get danger(){
-    let sum = 0;
+    this.dangerValue = 0;
     for(let b in this.dangerStats){
-      if(b) sum += .1;
+      if(b) this.dangerValue += .1;
     }
-    return sum;
+    return this.dangerValue;
   }
 }

@@ -42,7 +42,7 @@ function createLabel(value){
 }
 
 // Create tile element
-function createTile(type, danger, reward){
+function createTile(type, danger, reward, set){
     let tile = document.createElement('div');
     tile.classList = ['cell'];
 
@@ -62,6 +62,7 @@ function createTile(type, danger, reward){
     tile.appendChild(createLabel(tileNames[type]));
     tile.appendChild(createLabel(`d${danger}`));
     tile.appendChild(createLabel(`r${reward}`));
+    tile.appendChild(createLabel(`s${set}`));
     return tile;
 }
 
@@ -72,7 +73,7 @@ function renderTurn(data = matchData){
     for(let y = 0; y < 11; y++){
         for(let x = 0; x < 11; x++){
             let tileData = turn.tiles[`x${x}-y${y}`];
-            let tile = createTile(tileData.tileType, tileData.danger, tileData.reward);
+            let tile = createTile(tileData.tileType, tileData.dangerValue, tileData.reward, tileData.set);
             board.appendChild(tile);
         }
     }
