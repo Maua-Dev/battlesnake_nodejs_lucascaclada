@@ -1,5 +1,4 @@
-import { Tile } from './tile'
-import { TileContent, TileType } from './tile_content'
+import { Tile, TileType } from './tile'
 import { boardData, coord, snake } from './board_data_interface';
 import { Snake } from './snake'
 
@@ -49,7 +48,7 @@ export class Board{
       let x = pos.x;
       let y = pos.y;
       let key = Board.getTileKey(x, y);
-      this.tiles[key].content.tileType = TileType.Food;
+      this.tiles[key].tileType = TileType.Food;
     });
   }
 
@@ -60,16 +59,16 @@ export class Board{
       // Populate body tiles
       s.body.forEach(b => {
         let key = Board.getTileKeyFromCoord(b);
-        this.tiles[key].content.tileType = s.id == this.playerSnake.id ? TileType.PlayerBody : TileType.EnemyBody;
+        this.tiles[key].tileType = s.id == this.playerSnake.id ? TileType.PlayerBody : TileType.EnemyBody;
       })
 
       // Populate tail tile
       let tailKey = Board.getTileKeyFromCoord(s.body[len - 1]);
-      this.tiles[tailKey].content.tileType = s.id == this.playerSnake.id ? TileType.PlayerTail : TileType.EnemyTail;
+      this.tiles[tailKey].tileType = s.id == this.playerSnake.id ? TileType.PlayerTail : TileType.EnemyTail;
       
       // Populate head tile
       let headKey = Board.getTileKeyFromCoord(s.head);
-      this.tiles[headKey].content.tileType = s.id == this.playerSnake.id ? TileType.PlayerHead : TileType.EnemyHead;
+      this.tiles[headKey].tileType = s.id == this.playerSnake.id ? TileType.PlayerHead : TileType.EnemyHead;
       
       // Increase danger/reward according enemy movement
       if(s.id != this.playerSnake.id){
@@ -77,11 +76,11 @@ export class Board{
         this.tiles[headKey].sidesKeys.forEach(key => {
           if(this.playerSnake.length > s.length){
             // Player can kill snake
-            this.tiles[key].content.reward += .5;
+            this.tiles[key].reward += .5;
           }
           else{
             // Player can die
-            this.tiles[key].content.danger += .1;
+            this.tiles[key].danger += .1;
           }
         });
       }
@@ -93,7 +92,7 @@ export class Board{
       let line = '';
       for(let x = 0; x < this.boardWidth; x++){
         let tile:Tile = this.getTile(x, y);
-        line += tile.content.tileType;
+        line += tile.tileType;
       }
       console.log(line);
     }

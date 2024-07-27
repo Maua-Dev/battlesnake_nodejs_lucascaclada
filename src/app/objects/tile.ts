@@ -1,17 +1,28 @@
 import { Board } from './board'
-import { TileContent } from './tile_content'
+
+export enum TileType{
+  Empty,
+  Food,
+  EnemyHead,
+  EnemyBody,
+  EnemyTail,
+  PlayerHead,
+  PlayerBody,
+  PlayerTail
+}
 
 export class Tile{
   xPos:number;
   yPos:number;
   sidesKeys:string[] = [];
-  content:TileContent;
+
+  tileType:TileType = TileType.Empty;
+  danger:number = 0;
+  reward:number = 0;
 
   constructor(x:number, y:number, width:number = 11, height:number = 11){
     this.xPos = x;
     this.yPos = y;
-
-    this.content = new TileContent();
 
     if(this.xPos > 0) this.sidesKeys.push(Board.getTileKey(x - 1 , y));
     if(this.xPos < width - 1) this.sidesKeys.push(Board.getTileKey(x + 1, y));
