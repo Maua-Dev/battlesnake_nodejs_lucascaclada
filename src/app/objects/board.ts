@@ -1,6 +1,7 @@
 import { Tile, TileType } from './tile'
 import { boardData, coord, snake } from './board_data_interface';
 import { Snake } from './snake'
+import { calculateSections } from './floodfill';
 
 export class Board{
   boardWidth:number;
@@ -18,6 +19,7 @@ export class Board{
     this.generateTiles();
     this.populateFood(data.food);
     this.populateSnakes(data.snakes);
+    calculateSections(this);
   }
   
   static getTileKey(x:number, y:number) : string{
@@ -80,7 +82,7 @@ export class Board{
           }
           else{
             // Player can die
-            this.tiles[key].danger += .1;
+            this.tiles[key].dangerStats.nearHead = true;
           }
         });
       }

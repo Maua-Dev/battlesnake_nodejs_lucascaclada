@@ -14,7 +14,7 @@ export enum TileType{
 export class Dangers{
   snakeBody:boolean = false;
   nearHead:boolean = false;
-  smallSet:boolean = false;
+  smallSection:boolean = false;
 }
 
 export class Tile{
@@ -28,13 +28,13 @@ export class Tile{
   dangerValue:number = 0;
   reward:number = 0;
 
-  set:string;
-  setSize:number = 1;
+  section:string;
+  sectionSize:number = 1;
 
   constructor(x:number, y:number, width:number = 11, height:number = 11){
     this.xPos = x;
     this.yPos = y;
-    this.set = (x + y * width).toString();
+    this.section = (x + y * width).toString();
 
     if(this.xPos > 0) this.sidesKeys.push(Board.getTileKey(x - 1 , y));
     if(this.xPos < width - 1) this.sidesKeys.push(Board.getTileKey(x + 1, y));
@@ -44,9 +44,9 @@ export class Tile{
 
   get danger(){
     this.dangerValue = 0;
-    for(let b in this.dangerStats){
-      if(b) this.dangerValue += .1;
-    }
+    if(this.dangerStats.nearHead) this.dangerValue += 1;
+    if(this.dangerStats.smallSection) this.dangerValue += 1;
+    if(this.dangerStats.snakeBody) this.dangerValue += 1;
     return this.dangerValue;
   }
 }
