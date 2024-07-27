@@ -70,7 +70,14 @@ export class Snake{
         }
 
         // Rank directions by danger
-        dirs = dirs.sort((a, b) => a.danger - b.danger)
+        let safeDirs = dirs.filter(d => d.danger == 0);
+        if(safeDirs.length > 0){
+            dirs = safeDirs;
+            dirs = dirs.sort((a, b) => b.reward - a.reward);
+        }
+        else{
+            dirs = dirs.sort((a, b) => a.danger - b.danger);
+        }
         console.log(dirs);
         return dirs.map(d => d.name);
     }
