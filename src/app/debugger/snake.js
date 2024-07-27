@@ -70,7 +70,7 @@ function createTile(type, danger, reward, set){
 function renderTurn(data = matchData){
     board.innerHTML = '';
     let turn = data[turnIndex];
-    for(let y = 0; y < 11; y++){
+    for(let y = 10; y >= 0; y--){
         for(let x = 0; x < 11; x++){
             let tileData = turn.tiles[`x${x}-y${y}`];
             let tile = createTile(tileData.tileType, tileData.dangerValue, tileData.reward, tileData.set);
