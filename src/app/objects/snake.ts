@@ -1,18 +1,14 @@
 import { snake, coord } from './board_data_interface'
 import { Board } from './board'
-import { Tile, Dangers } from './tile'
+import { Tile, Dangers, TileType } from './tile'
 
 class Direction{
     name:string;
-    danger:number;
-    reward:number;
-    dangerStats:Dangers;
+    tile:Tile;
 
     constructor(name:string, tile:Tile){
         this.name = name;
-        this.danger = tile.dangerValue;
-        this.reward = tile.rewardValue;
-        this.dangerStats = tile.dangerStats;
+        this.tile = tile;
     }
 }
 
@@ -21,11 +17,13 @@ export class Snake{
     length:number;
     head:coord;
     directions:string[] = [];
+    health:number;
 
     constructor(snakeData:snake){
         this.id = snakeData.id;
         this.length = snakeData.length;
         this.head = snakeData.head;
+        this.health = snakeData.health;
     }
 
     // Checks available directions
@@ -34,7 +32,7 @@ export class Snake{
         // Check Left Side
         if(this.head.x > 0){
             let tile:Tile = board.getTile(this.head.x - 1, this.head.y);
-            let canMove:boolean = tile.tileType < 2;
+            let canMove:boolean = tile.tileType < 2 || (tile.tileType != TileType.PlayerTail && this.health > 99);
             if(canMove){
                 let d:Direction = new Direction('left', tile);
                 dirs.push(d);
@@ -44,7 +42,7 @@ export class Snake{
         // Check Down Side
         if(this.head.y > 0){
             let tile:Tile = board.getTile(this.head.x, this.head.y - 1);
-            let canMove:boolean = tile.tileType < 2;
+            let canMove:boolean = tile.tileType < 2 || (tile.tileType != TileType.PlayerTail && this.health > 99);
             if(canMove){
                 let d:Direction = new Direction('down', tile);
                 dirs.push(d);
@@ -54,7 +52,7 @@ export class Snake{
         // Check Right Side
         if(this.head.x < board.boardWidth - 1){
             let tile:Tile = board.getTile(this.head.x + 1, this.head.y);
-            let canMove:boolean = tile.tileType < 2;
+            let canMove:boolean = tile.tileType < 2 || (tile.tileType != TileType.PlayerTail && this.health > 99);
             if(canMove){
                 let d:Direction = new Direction('right', tile);
                 dirs.push(d);
@@ -64,7 +62,7 @@ export class Snake{
         // Check Up Side
         if(this.head.y < board.boardWidth - 1){
             let tile:Tile = board.getTile(this.head.x, this.head.y + 1);
-            let canMove:boolean = tile.tileType < 2;
+            let canMove:boolean = tile.tileType < 2 || (tile.tileType != TileType.PlayerTail && this.health > 99);
             if(canMove){
                 let d:Direction = new Direction('up', tile);
                 dirs.push(d);
@@ -72,14 +70,15 @@ export class Snake{
         }
 
         // Check if there are safe tiles
-        let safeDirs = dirs.filter(d => !d.dangerStats.nearHead&& !d.dangerStats.smallSection);
+        dirs.forEach(d => d.tile.calculateDanger(board));
+        let safeDirs = dirs.filter(d => !d.tile.dangerStats.nearHead && !d.tile.dangerStats.smallSection);
         if(safeDirs.length > 0){
             // Rank safe tiles by reward
             dirs = safeDirs;
-            dirs = dirs.sort((a, b) => b.reward - a.reward);
+            dirs = dirs.sort((a, b) => b.tile.rewardValue - a.tile.rewardValue);
         }
         else{
-            dirs = dirs.sort((a, b) => a.danger - b.danger);
+            dirs = dirs.sort((a, b) => a.tile.dangerValue - b.tile.dangerValue);
         }
         console.log(dirs);
         return dirs.map(d => d.name);

@@ -1,5 +1,6 @@
+import { TimeBasedLinearTrafficRouting } from 'aws-cdk-lib/aws-codedeploy';
 import { Board } from './board'
-import { Tile } from './tile'
+import { Tile, TileType } from './tile'
 
 export function calculateSections(board:Board){
     new FloodFill(board);
@@ -30,7 +31,7 @@ class FloodFill{
             for(let x = 0; x < width; x++){
                 let tile:Tile = this.board.getTile(x, y);
                 // Skip if tile is not empty or food
-                if(tile.tileType > 1) continue;
+                if(tile.tileType > 1 && tile.tileType != TileType.EnemyTail && tile.tileType != TileType.PlayerTail) continue;
                 let sides:string[] = tile.sidesKeys;
                 // Check tile sides
                 sides.forEach(key => {
@@ -61,7 +62,7 @@ class FloodFill{
             this.sections[key].forEach(tile => {
                 tile.sectionSize = sectionSize;
                 if(isSectionDangerous) tile.dangerStats.smallSection = true;
-                tile.dangerValue = tile.danger;
+                tile.calculateDanger(this.board);
             });
         }
     }
