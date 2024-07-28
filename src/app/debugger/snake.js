@@ -9,7 +9,8 @@ const tileNames = [
     'EnemyTail',
     'PlayerHead',
     'PlayerBody',
-    'PlayerTail'
+    'PlayerTail',
+    'NextMove'
 ];
 
 window.onload = () => {
@@ -54,27 +55,30 @@ function createLabel(value){
 }
 
 // Create tile element
-function createTile(type, danger, reward, set){
+function createTile(tileData){
     let tile = document.createElement('div');
     tile.classList = ['cell'];
 
+    if(tileData.rewardStats.food) tile.classList.add('food');
+    
+    let type = tileData.tileType;
     if(type == 0){
 
-    }
-    else if(type == 1){
-        tile.classList.add('food');
     }
     else if(type > 1 && type < 5){
         tile.classList.add('snake');
     }
-    else{
+    else if(type >= 5 && type < 8){
         tile.classList.add('player');
     }
+    else if(type == 8){
+        tile.classList.add('next-move');
+    }
 
-    tile.appendChild(createLabel(tileNames[type]));
-    tile.appendChild(createLabel(`d${danger}`));
-    tile.appendChild(createLabel(`r${reward}`));
-    tile.appendChild(createLabel(`s${set}`));
+    tile.appendChild(createLabel(tileNames[tileData.tileType]));
+    tile.appendChild(createLabel(`d${tileData.dangerValue}`));
+    tile.appendChild(createLabel(`r${tileData.rewardValue}`));
+    tile.appendChild(createLabel(`s${tileData.section}`));
 
     return tile;
 }
@@ -86,7 +90,7 @@ function renderTurn(data = matchData){
     for(let y = 10; y >= 0; y--){
         for(let x = 0; x < 11; x++){
             let tileData = turn.tiles[`x${x}-y${y}`];
-            let tile = createTile(tileData.tileType, tileData.dangerValue, tileData.rewardValue, tileData.section);
+            let tile = createTile(tileData);
             tile.onclick = () => {
                 console.log(tileData.dangerStats)
             }

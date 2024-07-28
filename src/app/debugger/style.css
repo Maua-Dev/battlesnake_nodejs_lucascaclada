@@ -34,6 +34,10 @@ body{
     border-radius: 100%;
 }
 
+.next-move{
+    background-color: #ffda75;
+}
+
 .snake{
     background-color: rgb(149, 25, 244);
 }
