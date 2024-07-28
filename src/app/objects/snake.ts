@@ -1,16 +1,18 @@
 import { snake, coord } from './board_data_interface'
 import { Board } from './board'
-import { Tile, TileType } from './tile'
+import { Tile, Dangers } from './tile'
 
 class Direction{
     name:string;
     danger:number;
     reward:number;
+    dangerStats:Dangers;
 
-    constructor(name:string, danger:number, reward:number){
+    constructor(name:string, tile:Tile){
         this.name = name;
-        this.danger = danger;
-        this.reward = reward;
+        this.danger = tile.dangerValue;
+        this.reward = tile.rewardValue;
+        this.dangerStats = tile.dangerStats;
     }
 }
 
@@ -34,7 +36,7 @@ export class Snake{
             let tile:Tile = board.getTile(this.head.x - 1, this.head.y);
             let canMove:boolean = tile.tileType < 2;
             if(canMove){
-                let d:Direction = new Direction('left', tile.danger, tile.reward);
+                let d:Direction = new Direction('left', tile);
                 dirs.push(d);
             }
         }
@@ -44,7 +46,7 @@ export class Snake{
             let tile:Tile = board.getTile(this.head.x, this.head.y - 1);
             let canMove:boolean = tile.tileType < 2;
             if(canMove){
-                let d:Direction = new Direction('down', tile.danger, tile.reward);
+                let d:Direction = new Direction('down', tile);
                 dirs.push(d);
             }
         } 
@@ -54,7 +56,7 @@ export class Snake{
             let tile:Tile = board.getTile(this.head.x + 1, this.head.y);
             let canMove:boolean = tile.tileType < 2;
             if(canMove){
-                let d:Direction = new Direction('right', tile.danger, tile.reward);
+                let d:Direction = new Direction('right', tile);
                 dirs.push(d);
             }
         }
@@ -64,14 +66,15 @@ export class Snake{
             let tile:Tile = board.getTile(this.head.x, this.head.y + 1);
             let canMove:boolean = tile.tileType < 2;
             if(canMove){
-                let d:Direction = new Direction('up', tile.danger, tile.reward);
+                let d:Direction = new Direction('up', tile);
                 dirs.push(d);
             }
         }
 
-        // Rank directions by danger
-        let safeDirs = dirs.filter(d => d.danger == 0);
+        // Check if there are safe tiles
+        let safeDirs = dirs.filter(d => !d.dangerStats.nearHead&& !d.dangerStats.smallSection);
         if(safeDirs.length > 0){
+            // Rank safe tiles by reward
             dirs = safeDirs;
             dirs = dirs.sort((a, b) => b.reward - a.reward);
         }

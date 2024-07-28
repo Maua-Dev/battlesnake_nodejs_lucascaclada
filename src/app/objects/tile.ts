@@ -11,13 +11,13 @@ export enum TileType{
   PlayerTail
 }
 
-class Dangers{
+export class Dangers{
   snakeBody:boolean = false;
   nearHead:boolean = false;
   smallSection:boolean = false;
 }
 
-class Rewards{
+export class Rewards{
   food:boolean = false;
   foodDist:number = 0;
 }
@@ -25,6 +25,8 @@ class Rewards{
 export class Tile{
   xPos:number;
   yPos:number;
+  width:number;
+  height:number;
   sidesKeys:string[] = [];
 
   tileType:TileType = TileType.Empty;
@@ -41,6 +43,8 @@ export class Tile{
   constructor(x:number, y:number, width:number = 11, height:number = 11){
     this.xPos = x;
     this.yPos = y;
+    this.width = width;
+    this.height = height;
     this.section = (x + y * width).toString();
 
     if(this.xPos > 0) this.sidesKeys.push(Board.getTileKey(x - 1 , y));
@@ -54,9 +58,12 @@ export class Tile{
       this.dangerValue = 9999;
       return this.dangerValue;
     }
-    this.dangerValue = 0;
+    this.dangerValue = (this.width * this.height) / this.sectionSize;
     if(this.dangerStats.nearHead) this.dangerValue += 1;
-    if(this.dangerStats.smallSection) this.dangerValue += 1;
+    if(this.dangerStats.smallSection){
+      this.dangerValue += 1;
+    }
+    this.dangerValue = Math.round(this.dangerValue * 1000) / 1000;
     return this.dangerValue;
   }
 

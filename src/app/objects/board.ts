@@ -30,6 +30,10 @@ export class Board{
     return Board.getTileKey(c.x, c.y);
   }
 
+  get tileCount(){
+    return this.boardWidth * this.boardHeight;
+  }
+
   getTile(x:number, y:number) : Tile{
     let key:string = Board.getTileKey(x, y);
     return this.tiles[key]
