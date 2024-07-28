@@ -43,7 +43,7 @@ export class Board{
     for(let y = 0; y < this.boardHeight; y++){
       for(let x = 0; x < this.boardWidth; x++){
         let key:string = Board.getTileKey(x, y);
-        let tile:Tile = new Tile(x, y, this.boardWidth, this.boardHeight);
+        let tile:Tile = new Tile(x, y, this);
         this.tiles[key] = tile;
       }
     }
@@ -86,8 +86,10 @@ export class Board{
       if(s.id != this.playerSnake.id){
         this.tiles[headKey].sidesKeys.forEach(key => {
           if(this.playerSnake.length <= s.length){
+            let tile:Tile = this.tiles[key];
             // Player can die
-            this.tiles[key].dangerStats.nearHead = true;
+            tile.dangerStats.nearHead = true;
+            if(tile.tileType < 2) tile.tileType = TileType.NextMove;
           }
         });
       }

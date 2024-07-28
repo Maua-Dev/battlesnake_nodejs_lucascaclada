@@ -8,7 +8,8 @@ export enum TileType{
   EnemyTail,
   PlayerHead,
   PlayerBody,
-  PlayerTail
+  PlayerTail,
+  NextMove
 }
 
 export class Dangers{
@@ -25,8 +26,7 @@ export class Rewards{
 export class Tile{
   xPos:number;
   yPos:number;
-  width:number;
-  height:number;
+
   sidesKeys:string[] = [];
 
   tileType:TileType = TileType.Empty;
@@ -40,31 +40,43 @@ export class Tile{
   section:string;
   sectionSize:number = 1;
 
-  constructor(x:number, y:number, width:number = 11, height:number = 11){
+  constructor(x:number, y:number, board:Board){
     this.xPos = x;
     this.yPos = y;
-    this.width = width;
-    this.height = height;
-    this.section = (x + y * width).toString();
+    this.section = (x + y * board.boardWidth).toString();
 
     if(this.xPos > 0) this.sidesKeys.push(Board.getTileKey(x - 1 , y));
-    if(this.xPos < width - 1) this.sidesKeys.push(Board.getTileKey(x + 1, y));
+    if(this.xPos < board.boardWidth - 1) this.sidesKeys.push(Board.getTileKey(x + 1, y));
     if(this.yPos > 0) this.sidesKeys.push(Board.getTileKey(x, y - 1));
-    if(this.yPos < height - 2) this.sidesKeys.push(Board.getTileKey(x, y + 1));
+    if(this.yPos < board.boardHeight - 2) this.sidesKeys.push(Board.getTileKey(x, y + 1));
   }
 
-  get danger(){
+  static sectionDanger(width:number, height:number, sectionSize:number){
+    return (width * height) / sectionSize;
+  }
+
+  calculateDanger(board:Board){
     if(this.dangerStats.snakeBody){
       this.dangerValue = 9999;
       return this.dangerValue;
     }
-    this.dangerValue = (this.width * this.height) / this.sectionSize;
+
+    if(this.tileType == TileType.NextMove && this.dangerStats.smallSection){
+      //let sides = this.sidesKeys.map(k => board.tiles[k]);
+      //console.log(sides);
+      this.dangerValue = this.sidesKeys.map(k => board.tiles[k])
+        .sort((a, b) => a.sectionSize - b.sectionSize)[0]
+        .sectionSize;
+    }
+    else{
+      this.dangerValue = Tile.sectionDanger(board.boardWidth, board.boardHeight, this.sectionSize);
+    }
+
     if(this.dangerStats.nearHead) this.dangerValue += 1;
     if(this.dangerStats.smallSection){
       this.dangerValue += 1;
     }
     this.dangerValue = Math.round(this.dangerValue * 1000) / 1000;
-    return this.dangerValue;
   }
 
   get reward(){
