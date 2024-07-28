@@ -38,6 +38,7 @@ app.post('/move', (req: Request, res: Response) => {
     // Chose random direction
     const directions = s.checkSides(b);
     console.log(`Turn ${request.turn}`);
+    console.log(`Health: ${request.you.health}`)
     const response = {
         move: directions[0],
         shout: `I'm moving ${directions[0]}!`
