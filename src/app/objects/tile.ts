@@ -28,6 +28,7 @@ export class Tile{
   yPos:number;
 
   sidesKeys:string[] = [];
+  sides:Tile[] = []
 
   tileType:TileType = TileType.Empty;
   
@@ -61,16 +62,14 @@ export class Tile{
       return this.dangerValue;
     }
 
-    if(this.tileType == TileType.NextMove && this.dangerStats.smallSection){
-      //let sides = this.sidesKeys.map(k => board.tiles[k]);
-      //console.log(sides);
-      this.dangerValue = this.sidesKeys.map(k => board.tiles[k])
-        .sort((a, b) => a.sectionSize - b.sectionSize)[0]
-        .sectionSize;
+    if(this.tileType == TileType.NextMove){
+      this.sides = this.sidesKeys.map(k => board.tiles[k])
+        .filter(t => t.tileType == TileType.Empty)
+        .sort((a, b) => b.sectionSize - a.sectionSize)
+      if(this.sides.length > 0) this.sectionSize = this.sides[0].sectionSize;
     }
-    else{
-      this.dangerValue = Tile.sectionDanger(board.boardWidth, board.boardHeight, this.sectionSize);
-    }
+
+    this.dangerValue = Tile.sectionDanger(board.boardWidth, board.boardHeight, this.sectionSize);
 
     if(this.dangerStats.nearHead) this.dangerValue += 1;
     if(this.dangerStats.smallSection){

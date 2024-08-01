@@ -55,15 +55,23 @@ class FloodFill{
     }
 
     updateDanger(){
+        let nextMoveTiles:Tile[] = [];
         let snakeSize:number = this.board.playerSnake.length;
         for(let key in this.sections){
             let sectionSize:number = this.sections[key].length;
             let isSectionDangerous:boolean = snakeSize > sectionSize;
             this.sections[key].forEach(tile => {
-                tile.sectionSize = sectionSize;
-                if(isSectionDangerous) tile.dangerStats.smallSection = true;
-                tile.calculateDanger(this.board);
+                if(tile.tileType == TileType.NextMove){
+                  // Calculate danger after all tiles' dangers are calculated
+                  nextMoveTiles.push(tile);
+                }
+                else{
+                  tile.sectionSize = sectionSize;
+                  if(isSectionDangerous) tile.dangerStats.smallSection = true;
+                  tile.calculateDanger(this.board);
+                }
             });
         }
+        nextMoveTiles.forEach(t => t.calculateDanger(this.board));
     }
 }
