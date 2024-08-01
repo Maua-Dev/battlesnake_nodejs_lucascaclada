@@ -92,7 +92,7 @@ function renderTurn(data = matchData){
             let tileData = turn.tiles[`x${x}-y${y}`];
             let tile = createTile(tileData);
             tile.onclick = () => {
-                console.log(tileData.dangerStats)
+                console.log(tileData);
             }
             board.appendChild(tile);
         }
