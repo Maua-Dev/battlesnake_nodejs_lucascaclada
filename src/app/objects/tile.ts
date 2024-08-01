@@ -34,6 +34,7 @@ export class Tile{
   
   dangerStats:Dangers = new Dangers();
   dangerValue:number = 0;
+  score:number = 0;
 
   rewardStats:Rewards = new Rewards();
   rewardValue:number = 0;
@@ -75,7 +76,9 @@ export class Tile{
     if(this.dangerStats.smallSection){
       this.dangerValue += 1;
     }
-    this.dangerValue = Math.round(this.dangerValue * 1000) / 1000;
+    //this.dangerValue = Math.round(this.dangerValue * 1000) / 1000;
+    this.score = this.rewardValue - this.dangerValue;
+    this.score = Math.round(this.score * 1000) / 1000;
   }
 
   get reward(){

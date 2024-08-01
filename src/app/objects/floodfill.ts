@@ -72,6 +72,7 @@ class FloodFill{
                 }
             });
         }
+        // Calculate NextMove tiles danger
         nextMoveTiles.forEach(t => t.calculateDanger(this.board));
     }
 }

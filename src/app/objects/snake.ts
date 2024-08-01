@@ -5,10 +5,12 @@ import { Tile, Dangers, TileType } from './tile'
 class Direction{
     name:string;
     tile:Tile;
+    score:number;
 
     constructor(name:string, tile:Tile){
         this.name = name;
         this.tile = tile;
+        this.score = tile.rewardValue - tile.dangerValue;
     }
 }
 
@@ -70,16 +72,16 @@ export class Snake{
         }
 
         // Check if there are safe tiles
-        dirs.forEach(d => d.tile.calculateDanger(board));
-        let safeDirs = dirs.filter(d => !d.tile.dangerStats.nearHead && !d.tile.dangerStats.smallSection);
-        if(safeDirs.length > 0){
-            // Rank safe tiles by reward
-            dirs = safeDirs;
-            dirs = dirs.sort((a, b) => b.tile.rewardValue - a.tile.rewardValue);
-        }
-        else{
-            dirs = dirs.sort((a, b) => a.tile.dangerValue - b.tile.dangerValue);
-        }
+        //let safeDirs = dirs.filter(d => !d.tile.dangerStats.nearHead && !d.tile.dangerStats.smallSection);
+        //if(safeDirs.length > 0){
+        //    // Rank safe tiles by reward
+        //    dirs = safeDirs;
+        //    dirs = dirs.sort((a, b) => b.tile.rewardValue - a.tile.rewardValue);
+        //}
+        //else{
+        //    dirs = dirs.sort((a, b) => a.tile.dangerValue - b.tile.dangerValue);
+        //}
+        dirs.sort((a,b) => b.score - a.score);
         console.log(dirs);
         return dirs.map(d => d.name);
     }

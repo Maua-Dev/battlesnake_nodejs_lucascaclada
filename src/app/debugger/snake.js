@@ -76,9 +76,7 @@ function createTile(tileData){
     }
 
     tile.appendChild(createLabel(tileNames[tileData.tileType]));
-    tile.appendChild(createLabel(`d${tileData.dangerValue}`));
-    tile.appendChild(createLabel(`r${tileData.rewardValue}`));
-    tile.appendChild(createLabel(`s${tileData.section}`));
+    tile.appendChild(createLabel(`s${tileData.score}`));
 
     return tile;
 }
