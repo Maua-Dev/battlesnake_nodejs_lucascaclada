@@ -108,8 +108,8 @@ function getMatchData(){
         return res.json();
     }).then(data => {
         matchData = data;
-        turnIndex = 0;
         turnCount = matchData.length;
+        turnIndex = turnCount - 1;
         renderTurn(matchData);
     });
 }
