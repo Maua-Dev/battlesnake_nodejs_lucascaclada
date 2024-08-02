@@ -85,11 +85,16 @@ export class Board{
       // Increase danger/reward according enemy movement
       if(s.id != this.playerSnake.id){
         this.tiles[headKey].sidesKeys.forEach(key => {
+          let tile:Tile = this.tiles[key];
           if(this.playerSnake.length <= s.length){
-            let tile:Tile = this.tiles[key];
             // Player can die
             tile.dangerStats.nearHead = true;
             if(tile.tileType < 2) tile.tileType = TileType.NextMove;
+          }
+          else{
+            // Player can kill snake
+            tile.rewardStats.nearKillableHead = true;
+            tile.rewardValue = tile.reward;
           }
         });
       }

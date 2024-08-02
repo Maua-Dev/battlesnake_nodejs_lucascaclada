@@ -21,6 +21,7 @@ export class Dangers{
 export class Rewards{
   food:boolean = false;
   foodDist:number = 0;
+  nearKillableHead:boolean = false;
 }
 
 export class Tile{
@@ -84,6 +85,7 @@ export class Tile{
   get reward(){
     this.rewardValue = 0;
     if(this.rewardStats.food) this.rewardValue += 1;
+    if(this.rewardStats.nearKillableHead) this.rewardValue += 1;
     return this.rewardValue;
   }
 }
