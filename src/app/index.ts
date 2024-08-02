@@ -7,6 +7,7 @@ import { router } from './routes/snake_routes'
 import { Board } from './objects/board'
 import { moveRequest, boardData } from './objects/board_data_interface'
 import { Snake } from './objects/snake';
+import { CalculateMovement } from './movement_manager'
 
 const app = express();
 app.use(express.json());
@@ -23,27 +24,30 @@ app.post('/move', (req: Request, res: Response) => {
     const request:moveRequest = req.body;
     const bData:boardData = request.board;
 
-    const s = new Snake(request.you);
-    const b = new Board(bData, s);
+    console.log(`Turn ${request.turn}`);
+    console.log(`Health: ${request.you.health}`)
 
+    const snake = new Snake(request.you);
+    const board = new Board(bData, snake);
+
+    // Calculate next player movement
+    const direction = CalculateMovement(board, snake);
+
+    // Log board for debugging
     if(process.env.STAGE === STAGE.TEST){
         if(latestMatchId != request.game.id){
             latestMatch = [];
             latestMatchId = request.game.id;
         } else{
-            latestMatch.push(b);
+            latestMatch.push(board);
         }
     }
 
-    // Chose random direction
-    const directions = s.checkSides(b);
-    console.log(`Turn ${request.turn}`);
-    console.log(`Health: ${request.you.health}`)
+    // Send response
     const response = {
-        move: directions[0],
-        shout: `I'm moving ${directions[0]}!`
+        move: direction,
+        shout: `I'm moving ${direction}!`
     };
-    console.log(response);
     res.json(response);
 });
 

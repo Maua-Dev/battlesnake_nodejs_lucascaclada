@@ -2,7 +2,7 @@ import { snake, coord } from './board_data_interface'
 import { Board } from './board'
 import { Tile, Dangers, TileType } from './tile'
 
-class Direction{
+export class Direction{
     name:string;
     tile:Tile;
     score:number;
@@ -29,7 +29,7 @@ export class Snake{
     }
 
     // Checks available directions
-    checkSides(board:Board) : string[]{
+    checkSides(board:Board) : Direction[]{
         let dirs:Direction[] = [];
         // Check Left Side
         if(this.head.x > 0){
@@ -70,19 +70,7 @@ export class Snake{
                 dirs.push(d);
             }
         }
-
-        // Check if there are safe tiles
-        //let safeDirs = dirs.filter(d => !d.tile.dangerStats.nearHead && !d.tile.dangerStats.smallSection);
-        //if(safeDirs.length > 0){
-        //    // Rank safe tiles by reward
-        //    dirs = safeDirs;
-        //    dirs = dirs.sort((a, b) => b.tile.rewardValue - a.tile.rewardValue);
-        //}
-        //else{
-        //    dirs = dirs.sort((a, b) => a.tile.dangerValue - b.tile.dangerValue);
-        //}
-        dirs.sort((a,b) => b.score - a.score);
-        console.log(dirs);
-        return dirs.map(d => d.name);
+        return dirs;
+        
     }
 }

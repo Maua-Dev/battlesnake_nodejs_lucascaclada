@@ -1,12 +1,7 @@
-import { TimeBasedLinearTrafficRouting } from 'aws-cdk-lib/aws-codedeploy';
 import { Board } from './board'
 import { Tile, TileType } from './tile'
 
-export function calculateSections(board:Board){
-    new FloodFill(board);
-}
-
-class FloodFill{
+export class FloodFill{
     sections:{ [coord:string]: Tile[] } = {};
     board:Board;
     constructor(board:Board){
