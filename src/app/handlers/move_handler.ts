@@ -6,8 +6,8 @@ export function moveHandler(req: Request, res: Response) {
       apiversion: '1',
       author: 'LucasCalcada',
       color: '#00ccff',
-      head: 'cosmic-horror',
-      tail: 'alligator',
+      head: 'all-seeing',
+      tail: 'round-bum',
       version: '1.0.0'
     })
 
