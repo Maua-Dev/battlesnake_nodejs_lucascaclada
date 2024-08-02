@@ -6,6 +6,7 @@ export class Board{
   boardWidth:number;
   boardHeight:number;
   tiles: { [coord:string]: Tile} = {};
+  foodTiles:Tile[] = [];
 
   playerSnake:Snake;
 
@@ -52,9 +53,11 @@ export class Board{
       let x = pos.x;
       let y = pos.y;
       let key = Board.getTileKey(x, y);
-      this.tiles[key].tileType = TileType.Food;
-      this.tiles[key].rewardStats.food = true;
-      this.tiles[key].rewardValue = this.tiles[key].reward;
+      let tile = this.tiles[key];
+      tile.tileType = TileType.Food;
+      tile.rewardStats.food = true;
+      tile.rewardValue = this.tiles[key].reward;
+      this.foodTiles.push(tile);
     });
   }
 
