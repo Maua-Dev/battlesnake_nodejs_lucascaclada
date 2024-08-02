@@ -34,7 +34,7 @@ export class Snake{
         // Check Left Side
         if(this.head.x > 0){
             let tile:Tile = board.getTile(this.head.x - 1, this.head.y);
-            let canMove:boolean = tile.tileType < 2 || (tile.tileType != TileType.PlayerTail && this.health > 99);
+            let canMove = [TileType.Food, TileType.Empty, TileType.NextMove].includes(tile.tileType);
             if(canMove){
                 let d:Direction = new Direction('left', tile);
                 dirs.push(d);
@@ -44,7 +44,7 @@ export class Snake{
         // Check Down Side
         if(this.head.y > 0){
             let tile:Tile = board.getTile(this.head.x, this.head.y - 1);
-            let canMove:boolean = tile.tileType < 2 || (tile.tileType != TileType.PlayerTail && this.health > 99);
+            let canMove = [TileType.Food, TileType.Empty, TileType.NextMove].includes(tile.tileType);
             if(canMove){
                 let d:Direction = new Direction('down', tile);
                 dirs.push(d);
@@ -54,7 +54,7 @@ export class Snake{
         // Check Right Side
         if(this.head.x < board.boardWidth - 1){
             let tile:Tile = board.getTile(this.head.x + 1, this.head.y);
-            let canMove:boolean = tile.tileType < 2 || (tile.tileType != TileType.PlayerTail && this.health > 99);
+            let canMove = [TileType.Food, TileType.Empty, TileType.NextMove].includes(tile.tileType);
             if(canMove){
                 let d:Direction = new Direction('right', tile);
                 dirs.push(d);
@@ -64,7 +64,7 @@ export class Snake{
         // Check Up Side
         if(this.head.y < board.boardWidth - 1){
             let tile:Tile = board.getTile(this.head.x, this.head.y + 1);
-            let canMove:boolean = tile.tileType < 2 || (tile.tileType != TileType.PlayerTail && this.health > 99);
+            let canMove = [TileType.Food, TileType.Empty, TileType.NextMove].includes(tile.tileType);
             if(canMove){
                 let d:Direction = new Direction('up', tile);
                 dirs.push(d);
